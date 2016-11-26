@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script type="text/javascript">
+			var app = angular.module('myApp', []);
+			app.controller('myCtrl', function(){
+				this.name = 'Nirmal';
+			});
+		</script>
+	</head>
+	<body ng-app="myApp">
+
+		<div ng-controller="myCtrl as o">
+
+			<h1>Hello {{o.name}}</h1>
+
+		</div>
+
+</body>
+</html>
