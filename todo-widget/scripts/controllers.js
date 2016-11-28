@@ -21,17 +21,42 @@ define(function (require, exports) {
      * Export Controllers
      */
     //exports.MainCtrl = MainCtrl;
-    exports.MainCtrl = function(){
+    exports.MainCtrl = function(lpWidget){
         var ctrl = this;
+
+        ctrl.limit = lpWidget.model.getPreference('limit') || 5;
+
+        lpWidget.model.addEventListener('preferencesSaved', function(){
+            ctrl.limit = lpWidget.model.getPreference('limit') || 5;    
+        });        
 
         ctrl.tasks = [];
 
         ctrl.addTask = function(dt){
-            var tmp = {
-                description:dt.description,
-                complete:false
+
+            var itemLimit = function(){
+               var returnCnt = 0;
+               for (var i = 0; i < ctrl.tasks.length; i++) {
+                    if(ctrl.tasks[i].complete){
+                        returnCnt++; 
+                    }
+                }
+
+                returnCnt = ctrl.tasks.length-returnCnt;
+
+                if(returnCnt>=ctrl.limit){
+                    return false;
+                }
+                return true;
             };
-            ctrl.tasks.push(tmp);
+
+            if(itemLimit()){
+                var tmp = {
+                    description:dt.description,
+                    complete:false
+                };
+                ctrl.tasks.push(tmp);
+            }
         };
 
         ctrl.removeTask = function(indx){
