@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script type="text/javascript">
+			
+			var app = angular.module('myApp', []);
+			app.controller('myCtrl', ['$scope', 'testPro', function($scope, testPro){
+				$scope.message = testPro.showMessage();
+			}]);
+
+			app.provider('testPro', function(){
+
+				var msg = 'default';
+	            return {
+	                setMessage: function(value) {
+	                    msg = value;
+	                },
+	                $get: function() {
+	                return {
+	                        showMessage: function() {
+	                            return msg;
+	                        }
+	                    }
+	                }
+	            }
+
+			});
+
+			app.config(function(testProProvider){
+				testProProvider.setMessage('hi this  is my first provider');
+			});
+			
+		</script>
+	</head>
+	<body ng-app="myApp">
+
+		<div ng-controller="myCtrl">
+			
+			<h1>Message from factory - {{message}}</h1>
+
+		</div>
+
+	</body>
+</html>
