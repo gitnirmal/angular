@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script type="text/javascript">
+			
+			var app = angular.module('myApp', []);
+			app.controller('myCtrl', ['$scope', 'testService', function($scope, testService){
+				$scope.message = testService.showMessage();
+			}]);
+
+			app.service('testService', function(){
+				this.showMessage = function(){
+					return 'hi this is my first service';
+				}
+			});
+			
+		</script>
+	</head>
+	<body ng-app="myApp">
+
+		<div ng-controller="myCtrl">
+			
+			<h1>Message from service - {{message}}</h1>
+
+		</div>
+
+	</body>
+</html>
