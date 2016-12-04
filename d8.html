@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+		<script type="text/javascript">
+			
+			var app = angular.module('myApp', []);
+
+			app.config(['$routeProvider', function($routeProvider) {
+			    $routeProvider.when('/viewA', {
+			        	templateUrl: 'view.html',
+			        	controller: 'ctrlA',
+			      	}).when('/viewB', {
+			        	templateUrl: 'view.html',
+			        	controller: 'ctrlB',
+			      	});
+			  	}
+			]);
+
+			app.controller('myCtrl', function($scope) {});
+
+			app.controller('ctrlA', function($scope) {
+			  $scope.val = 'CtrlA';
+			});
+
+			app.controller('ctrlB', function($scope) {
+			  $scope.val = 'CtrlB';
+			});
+			
+		</script>		
+	</head>
+	<body ng-app="myApp" ng-controller="myCtrl">
+   
+
+		<script type="text/ng-template" id="view.html">
+			{{val}}
+		</script>
+
+		<a href="#/viewA">View A</a>
+		<a href="#/viewB">View B</a>
+
+		<div ng-view></div>
+
+	</body>
+</html>
