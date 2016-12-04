@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <title>
+        $q.when() Is The Missing $q.resolve() Method In AngularJS
+    </title>
+
+    <!-- Load scripts. -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+    <script type="text/javascript">
+        // Create an application module for our demo.
+        var app = angular.module( "Demo", [] );
+        // -------------------------------------------------- //
+        // -------------------------------------------------- //
+        // I control the root of the application.
+        app.controller("AppController",function( $scope, $q , githubService) {
+
+
+            githubService.getAccount().then(
+                    function (result) {
+                        // promise was fullfilled (regardless of outcome)
+                        // checks for information will be peformed here
+                        //$scope.account = result;
+                        console.log(result);
+                    },
+                    function (error) {
+                        // handle errors here
+                        console.log(error.statusText);
+                    }
+                );
+
+        });
+
+        app.service("githubService", function ($http, $q) {
+ 
+            var deferred = $q.defer();
+     
+            this.getAccount = function () {
+                return $http.get('https://api.github.com/users/gitnirmal')
+                        .then(function (response) {
+                            // promise is fulfilled
+                            deferred.resolve(response.data);
+                            // promise is returned
+                            return deferred.promise;
+                        }, function (response) {
+                            // the following line rejects the promise 
+                            deferred.reject(response);
+                            // promise is returned
+                            return deferred.promise;
+                        });
+            };
+        });
+
+
+    </script>
+</head>
+<body ng-app="Demo" ng-controller="AppController">
+
+    <h1>
+        $q.when() Is The Missing $q.resolve() Method In AngularJS
+    </h1>
+
+</body>
+</html>
